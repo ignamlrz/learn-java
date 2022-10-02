@@ -11,3 +11,10 @@
 !TOOLS.md
 !HELP.md
 !java.iml
+
+# Except modules
+!advanced.module/
+!advanced.module.app/
+!advanced.module.utils/
+!basic.module/
+!basic.module.utils/
