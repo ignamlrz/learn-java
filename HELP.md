@@ -13,7 +13,6 @@ used commands can be found inside the [tools guide](./TOOLS.md).
 
 ---
 
-#### javac -d \<directory> --module-source-path \<module source path> [-m | --module] \<module>
 Compile a module: 
 - `-d <directory>`: Specify where to place generated class files
 - `--module-source-path <module source path>`: Specify where to find input source files 
@@ -38,7 +37,6 @@ javac -d out/production --module-source-path=./*/src/ -m advanced.module.app
 
 ---
 
-#### jar [-c | --create] [-f | --file] <filename.jar> [-e | --main-class] \<mainclass> \[-C \<directory> \[\<files>]]: 
 Creation of a new Java Archive (JAR) from modular compiled files:
   - `[-c | --create]`: Specify we want to create a JAR
   - `[-f | --file] <filename.jar>`: The archive file name. When omitted, either stdin or stdout is used based on the 
@@ -56,7 +54,6 @@ jar -c -f out/utils.jar -p out/production -e base.sample.interfaces.Countable -C
 
 ---
 
-#### java [-cp | -classpath | --class-path] <class search path of directories an zip/jar> \<mainclass> [...args]
 Run app, where is passed with a classpath (expecting a list of directories, JAR archives, and ZIP archives)
 
 ```shell
@@ -67,7 +64,6 @@ java -cp out/utils.jar base.sample.interfaces.Countable
 
 ---
 
-#### java [-p | --module-path] \<module path> -m \<module>/\[\<main class>] [...args]
 A separated list of directories, each directory is a directory of modules that replace upgradeable modules in the 
 runtime image
 
@@ -84,7 +80,6 @@ java -p out/production -m advanced.module.app/org.app.entity.BaseEntity
 
 ---
 
-#### java --list-modules
 List observable modules
 
 ```shell
@@ -93,7 +88,6 @@ java -p out/production --list-modules
 
 ---
 
-#### java --describe-module <module>
 List of packages that contain that module
 
 ```shell
@@ -103,7 +97,6 @@ java -p out/production/ --describe-module advanced.module.app
 
 ---
 
-#### jar [-f | --file] \<filename.jar> [-d | --describe-module]
 Print the module descriptor, or automatic module name
 
 ```shell
@@ -112,7 +105,6 @@ jar -f out/app.jar --describe-module
 
 ---
 
-#### jar [-f | --file] \<filename.jar> [-t | --list]
 List the table of content of a jar archive
 
 ```shell
@@ -123,7 +115,6 @@ jar --file out/app.jar -t
 
 ---
 
-#### jdeps [-s | -summary]
 Print dependency summary only
 
 ```shell
@@ -132,7 +123,6 @@ jdeps -s out/production/advanced.module.core
 
 ---
 
-#### jdeps [-v | -verbose]
 Print all class level dependencies
 
 ```shell
@@ -141,7 +131,6 @@ jdeps -v out/production/advanced.module.core
 
 ---
 
-#### jdeps --list-deps
 Lists the module dependencies. It also prints any internal API packages if referenced. This options transitively
 analyzes libraries on class path and module path if referenced
 
@@ -151,7 +140,6 @@ jdeps --list-deps --module-path out/production out/production/advanced.module.ap
 
 ---
 
-#### jdeps --list-reduced-deps
 Same as `--list-deps` with not listing the implied reads edges from the module graph
 
 ```shell
@@ -160,7 +148,6 @@ jdeps --list-reduced-deps --module-path out/production -m  advanced.module.app
 
 ---
 
-#### jdeps --print-module-deps
 Same as `--list-reduced-deps` with printing a comma-separated list of modules dependencies
 
 
@@ -170,7 +157,6 @@ jdeps --print-module-deps --module-path out/production -m advanced.module.app
 
 ---
 
-#### jdeps --check \<module\>[,<module-name>]
 Analyze the module dependencies. It prints the module descriptor,
 the resulting module dependencies after analysis and the graph after transition reduction. It also identifies
 any unused qualified exports
@@ -186,6 +172,110 @@ jdeps --module-path out/production -m advanced.module.app
 > `jdeps` not contain the option `-p` as other commands (`java`, `javac`, `jar`) because here the options
 refer to package (`-p` | `-package` | `--package`). Still, it contains the `--module-option`, which works same as other
 commands
+
+## 6. Migration to a Modular Application
+
+#### Problem Specification
+
+We have the following structure:
+
+```
+.
+├── src
+│   ├── sample
+│   │   ├── api
+│   │   │
+│   │   ├── core
+│   │   │
+│   │   ├── entity
+│   │   │
+│   │   ├── service
+├── .gitignore
+├── LICENSE
+└── README.md
+```
+
+We want to migrate to a relationship between modules like this:
+
+```mermaid
+graph TD;
+    A-->C[java.logging];
+    A[sample.api]
+        -->B[sample.service]
+        -->D[sample.entity]
+        -->E[sample.core]
+        -->F[java.base];
+    A-->D
+    A-->E
+    A-->F
+    B-->E
+    B-->F
+    D-->F
+```
+
+---
+#### Creation of JAR from class path
+
+1. Create a manifest file `META-INF/MANIFEST.MF` with the Class-Path and the Main-Class defined
+   ```manifest 
+   Main-Class: sample.api.Controller
+   Class-Path: sample.core.jar sample.entity.jar sample.service.jar
+   ```
+2. Jar-up those files
+    ```shell
+    jar -Mcf sample.core.jar -C out/production sample/core
+    jar -Mcf sample.entity.jar -C out/production sample/entity
+    jar -Mcf sample.service.jar -C out/production sample/service
+    jar -mcf META-INF/MANIFEST.MF sample.api.jar -C out/production sample/api
+    ```
+
+3. Execute API through `JAR`
+    ```shell
+    java -jar sample.api.jar
+    ```
+
+---
+#### Migration Bottom-Up Approach
+Migrate the least dependent module to the most dependent. Uses both the `--class-path` for existing `JARs` and 
+`--module-path` for modularized `JARs`. You may need to include --add-modules when executing in this hybrid way.
+
+```shell
+# Creation of a jar least dependent module without manifest file
+jar -Mcf sample.core.jar -C out/production/sample.core/ .
+# Used when you non-modular code depends on artifacts on the module path
+java -p . --add-modules sample.core -jar sample.api.jar
+```
+
+---
+#### Migration Top-Down Approach
+Migrate from the most dependent module to the least dependent. Uses the `--module-path` only and loads existing 
+`JARs` as automatic modules if they are not modularized
+
+```shell
+# Creation of a jar most dependent module
+jar -mcf META-INF/MANIFEST.MF sample.api.jar -C out/production/sample.api/ .
+# Used when you non-modular code depends on artifacts on the module path
+java -p . -m sample.api/sample.api.Controller
+```
+
+---
+#### Determine problems
+Not all existing jar files can be used as an automatic module. The `jdeps` tool should be used to try to identify 
+these exceptions:
+- **Illegal Access To Internal APIs**: Only `java.*` and `javax.*` packages are fully supported. Most `com.sun.*` and `sun.*` 
+  packages, on the other hand, are internal and hence inaccessible by default
+    ```shell
+    # Get additional information about jdk internal problems
+    jdeps --jdk-internals dom4j-1.6.1.jar
+    # Get additional information about jdk internal problems
+    jdeprscan dom4j-1.6.1.jar
+    ```
+- **Split Packages**
+    ```shell
+    # Example of Split Package problem
+    jdeps -s genorimo-jta_1.1_spec-1.1.1.jar
+    ```
+- **Cyclical dependencies**
 
 # Additional sites
 - [Readme](./README.md): Advisory document about this project.
