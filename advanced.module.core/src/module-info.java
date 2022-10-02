@@ -11,10 +11,14 @@
 
 /**
  * Module which contain examples about Java modules and packages
- * relationship imports<p></p>
+ * relationship exports<p></p>
  *
  * @since 1
  */
-module advanced.module.app {
-    requires advanced.module.utils;
+module advanced.module.core {
+    // ...allow use base.pck on both advanced.module.utils and
+    //    advanced.module .app modules
+    exports base.pck to advanced.module.utils, advanced.module.app;
+    // ...only allow use base.sample on advanced.module.utils
+    exports base.sample to advanced.module.utils;
 }

@@ -13,7 +13,7 @@
 !java.iml
 
 # Except modules
-!advanced.module/
+!advanced.module.core/
 !advanced.module.app/
 !advanced.module.utils/
 !basic.module/

@@ -10,11 +10,12 @@
  */
 
 /**
- * Contain advances examples about modularization exportation.
+ * Intermediate module which contain examples about Java modules and packages
+ * relationship exports and transitive imports<p></p>
  *
  * @since 1
  */
 module advanced.module.utils {
-    requires transitive advanced.module;
+    requires transitive advanced.module.core;
     exports base.sample.interfaces;
 }

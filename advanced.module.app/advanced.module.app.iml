@@ -8,6 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="advanced.module.utils" />
-    <orderEntry type="module" module-name="advanced.module" />
+    <orderEntry type="module" module-name="advanced.module.core" />
   </component>
 </module>

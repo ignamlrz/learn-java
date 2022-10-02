@@ -1,10 +1,10 @@
 # [Chapter 7. Packages and modules](https://docs.oracle.com/javase/specs/jls/se11/html/jls-7.html)
 This repository contain examples about the use of packages and modules on Java SE 11. You can open this 
-repository with your favourite IDE, although IntelliJ is recommended because it is the most complete to use java
+repository with your favourite IDE, although IntelliJ is recommended
 
 ## How to learn
 Is proven, that the best way to learn a new language completely is through seeing examples in code on the topic 
-being talked about. You can find all source code on [src/](./src) folder
+being talked about. You can find example source code here
 
 ## Additional sites
 #### On this Project

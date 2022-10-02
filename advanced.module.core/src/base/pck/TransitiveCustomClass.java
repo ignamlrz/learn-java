@@ -12,8 +12,10 @@
 package base.pck;
 
 /**
- * The class {@link TransitiveCustomClass} class is used for the purpose of been
- * imported as transitive package, concatenating import-export flow.
+ * The class {@link TransitiveCustomClass} is used for the purpose of been
+ * exported to both <b>advanced.module.utils</b> and <b>advanced.module.app</b>
+ * modules.
+ * <p></p>
  *
  * @author Ignacio Moral Rodríguez
  * @see <a href="https://docs.oracle.com/javase/specs/jls/se11/html/jls-7.html">
