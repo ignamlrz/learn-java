@@ -16,5 +16,6 @@
 !advanced.module.core/
 !advanced.module.app/
 !advanced.module.utils/
-!basic.module/
-!basic.module.utils/
+!service.slots.game/
+!service.slots.impl/
+!service.slots.spi/

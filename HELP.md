@@ -237,7 +237,7 @@ graph TD;
 ---
 #### Migration Bottom-Up Approach
 Migrate the least dependent module to the most dependent. Uses both the `--class-path` for existing `JARs` and 
-`--module-path` for modularized `JARs`. You may need to include --add-modules when executing in this hybrid way.
+`--module-path` for modularized `JARs`. You may need to include `--add-modules` when executing in this hybrid way.
 
 ```shell
 # Creation of a jar least dependent module without manifest file
@@ -277,6 +277,31 @@ these exceptions:
     ```
 - **Cyclical dependencies**
 
+---
+#### Problem Analysis
+
+- **Modules with same package**: Detected with `jdeps`
+  - If is your own module: 
+    - Merge packages on same module
+    - Rename package in one module
+  - Problem caused from third-party: Execute legacy code rom the `classpath` until the `JAR` issues get resolved
+- **Cyclical dependencies**: jdeps `[-R | --recursive]` run recursive through packages
+
+## 7. Services Provider Interface (SPI)
+
+#### Module Descriptor
+Can define information about services using the directives:
+
+- `uses`: Specifies a service that the current module can discover providers for (_service consumption directive_)
+- `provides`: Specifies a servies which the `with` clause specifies one or more service providers (_service 
+  provision directive_)
+
+> ⚠ Warning
+>
+> It is a compile-time error if there is more than one provides directive specifying the same service
+
+
+---
 # Additional sites
 - [Readme](./README.md): Advisory document about this project.
 - [Tools](./TOOLS.md): A set of tools and commands reference topic lists and describes the
