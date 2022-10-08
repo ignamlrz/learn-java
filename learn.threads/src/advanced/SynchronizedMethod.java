@@ -1,4 +1,4 @@
-package medium;
+package advanced;
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;

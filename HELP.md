@@ -9,6 +9,8 @@ The Util Commands topic lists and describes the most used Java Development Kit (
 They’re grouped into the following sections based on the related functions that they perform. Details about the
 used commands can be found inside the [tools guide](./TOOLS.md).
 
+---
+
 ## 1. Concurrent Collections
 
 Concurrent collection classes are generally preferable to the synchronized options. These classes have the
@@ -160,6 +162,33 @@ following characteristics in commons:
 | Throws ConcurrentModificationException         | YES                                    | NO                            |
 | Traversal                                      | Throws ConcurrentModificationException | Exists once upon construction |
 | Scalability                                    | Less scalable                          | More scalable                 |
+
+---
+
+## 2. Thread Problems
+
+### Deadlock
+
+When two or more thread block forever. For example, when we want to use CyclicBarrier with 4 _parties_, but our
+ExecutorService only support 2 threads each time. When these threads await, CyclicBarrier need 2 threads to do the
+barrier
+
+Thread A executes Operation A which lock Object A, then tries to access Object B
+Thread B executes Operation B which lock Object B, then tries to access Object A
+
+Both threads will block indefinitely waiting for the other thread to release the lock, which it cannot
+
+### Livelock
+
+When two threads are stuck in a response loop, one thread responding to the other thread which prompts another 
+response, and so on
+
+### Starvation
+
+When one thread gets limited access to a resource it needs to proceed because another thread is monopolizing the 
+resource, due usually too time-consuming synchronized operations
+
+One or several threads continue to execute in a timely fashion but one or several threads are blocked
 
 ---
 

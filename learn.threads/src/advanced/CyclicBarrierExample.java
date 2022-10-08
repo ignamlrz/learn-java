@@ -1,4 +1,4 @@
-package medium;
+package advanced;
 
 import java.util.List;
 import java.util.Random;

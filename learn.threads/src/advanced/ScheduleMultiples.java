@@ -1,4 +1,4 @@
-package medium;
+package advanced;
 
 import java.util.IntSummaryStatistics;
 import java.util.concurrent.*;

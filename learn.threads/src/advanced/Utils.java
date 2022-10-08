@@ -1,8 +1,8 @@
-package medium;
+package advanced;
 
 /**
  * the {@link Utils} class is a Utility class which contain methods to use on
- * another classes of {@link medium} package
+ * another classes of {@link advanced} package
  *
  * @author ignamlrz
  */
