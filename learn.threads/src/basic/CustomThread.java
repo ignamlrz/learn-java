@@ -30,8 +30,8 @@ public class CustomThread extends Thread {
      * Method overrides {@link #run()}. This is an implementation of task to
      * be executed
      *
-     * @see #start()
-     * @see #CustomThread(String, int)
+     * @see Thread#run()
+     * @see Thread#start()
      */
     @Override
     public void run() {
