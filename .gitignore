@@ -1,0 +1,17 @@
+# Ignore everything
+/*
+
+# Except folders
+!src/
+
+# Except files
+!.gitignore
+!LICENSE
+!README.md
+!TOOLS.md
+!HELP.md
+!java.iml
+
+# Except modules
+!learn.threads/
+
