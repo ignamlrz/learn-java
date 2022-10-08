@@ -9,3 +9,4 @@ being talked about. You can find example source code here
 ## Table of content:
 1. [ The Java® Language Specification - Java SE 11 ](https://docs.oracle.com/javase/specs/jls/se11/html/index.html)
    1. [ Package and Modules ](https://github.com/ignamlrz/learn-java/tree/se11/jls-7)
+   2. [ Threads and Locks ](https://github.com/ignamlrz/learn-java/tree/se11/jls-17)
