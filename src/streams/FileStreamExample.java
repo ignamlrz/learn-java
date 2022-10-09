@@ -1,4 +1,4 @@
-package file;
+package streams;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * The {@link FileIOExample} class contain a set of implementation examples
+ * The {@link FileStreamExample} class contain a set of implementation examples
  * using I/O File streams
  *
  * @author Tim Buchalka
  */
-public class FileIOExample {
+public class FileStreamExample {
 
     public static void main(String[] args) throws IOException {
         String fileNameExample_1 = "characterData.txt";

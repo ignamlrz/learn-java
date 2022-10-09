@@ -1,8 +1,57 @@
-package serialization;
+package streams;
 
 import java.io.*;
 
-class Animal  {
+/**
+ * The {@link ObjectStreamExample} class contain a set of examples using a
+ * class which implements {@link Externalizable} interface
+ *
+ * @author Tim Buchalka
+ */
+public class ObjectStreamExample {
+    public static void main(String[] args) throws IOException,
+            ClassNotFoundException {
+
+        String fileName = "Brandy.ser";
+
+        Pet originalPet = new Pet("Brandy", "Dog");
+        originalPet.age = 5;
+        originalPet.weight = 30;
+        Pet.count = 55;
+
+        System.out.println("--------- Original State -----------");
+        System.out.println(originalPet);
+
+        // Use try with resources (automatically closes file) to output
+        // the Pet object
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(
+                new FileOutputStream(fileName))) {
+            // write the Pet to a file
+            outputStream.writeObject(originalPet);
+        }
+
+        Pet deserializedPet = null;
+        // Use try with resources (automatically closes file) to input
+        // the Pet object
+        try (ObjectInputStream inStream = new ObjectInputStream(
+                new FileInputStream(fileName))) {
+            try {
+                // read the Pet from a file
+                deserializedPet = (Pet) inStream.readObject();
+
+                // Need to check for EOFException
+            } catch (EOFException e) {
+                // Ignore, end of file
+            }
+        }
+
+        System.out.println("------- Deserialized State ------");
+        System.out.println(deserializedPet);
+
+    }
+}
+
+class Animal {
     int age;
     int weight;
 
@@ -82,47 +131,4 @@ class Pet extends Animal implements Externalizable {
         age = in.read();
     }
 
-}
-
-public class SerializationExample {
-    public static void main(String[] args) throws IOException,
-            ClassNotFoundException {
-
-        String fileName = "Brandy.ser";
-
-        Pet originalPet = new Pet("Brandy", "Dog");
-        originalPet.age = 5;
-        originalPet.weight = 30;
-        Pet.count = 55;
-
-        System.out.println("--------- Original State -----------");
-        System.out.println(originalPet);
-
-        // Use try with resources (automatically closes file) to output
-        // the Pet object
-        try (ObjectOutputStream outputStream = new ObjectOutputStream(
-                new FileOutputStream(fileName))) {
-            // write the Pet to a file
-            outputStream.writeObject(originalPet);
-        }
-
-        Pet deserializedPet = null;
-        // Use try with resources (automatically closes file) to input
-        // the Pet object
-        try (ObjectInputStream inStream = new ObjectInputStream(
-                new FileInputStream(fileName))) {
-            try {
-                // read the Pet from a file
-                deserializedPet = (Pet) inStream.readObject();
-
-                // Need to check for EOFException
-            } catch (EOFException e) {
-                // Ignore, end of file
-            }
-        }
-
-        System.out.println("------- Deserialized State ------");
-        System.out.println(deserializedPet);
-
-    }
 }

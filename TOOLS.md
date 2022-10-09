@@ -1,7 +1,7 @@
 # [Tools and Commands Reference](https://docs.oracle.com/en/java/javase/11/tools/tools-and-command-reference.html)
 
 The JDK tools and their commands enable developers to handle development tasks such as compiling and running a 
-program, packaging source files into a Java Archive (JAR) file, applying security policies to a JAR file, and more.
+program, packaging source files into a Java Archive (JAR) streams, applying security policies to a JAR streams, and more.
 
 The tools and commands reference topic lists and describes the Java Development Kit (JDK) tools. They’re grouped 
 into the following sections based on the related functions that they perform. Details about the tools and the 
@@ -31,7 +31,7 @@ custom runtime image.
 
 - `jdeps`: You use the `jdeps` command to launch the Java class dependency analyzer.
 
-- `jdeprscan`: You use the `jdeprscan` tool as a static analysis tool that scans a jar file (or some other 
+- `jdeprscan`: You use the `jdeprscan` tool as a static analysis tool that scans a jar streams (or some other 
 aggregation of class files) for uses of deprecated API elements.
 
 ## Language Shell
@@ -81,10 +81,10 @@ The following utilities let you deploy Java applications:
 
 > **Note**: `pack200` and `unpack200` have been deprecated and might be removed in a future JDK release.
  
-- `pack200`: You use the `pack200` command to transform a Java Archive (JAR) file into a compressed pack200 file 
+- `pack200`: You use the `pack200` command to transform a Java Archive (JAR) streams into a compressed pack200 streams 
 with the Java gzip compressor.
 
-- `unpack200`: You use the `unpack200` command to transform a packed file into a JAR file for web deployment.
+- `unpack200`: You use the `unpack200` command to transform a packed streams into a JAR streams for web deployment.
 
 ## Monitoring Tools
 

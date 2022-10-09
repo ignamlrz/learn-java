@@ -1,4 +1,4 @@
-package console;
+package streams;
 
 
 import java.io.BufferedReader;
@@ -8,13 +8,13 @@ import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 
 /**
- * The {@link ConsoleExamples} class contain an implementation example using
+ * The {@link ConsoleStreamExamples} class contain an implementation example using
  * standard command lines input and output streams, and an implementation
  * example using {@link Console} class.
  *
  * @author Tim Buchalka
  */
-public class ConsoleExamples {
+public class ConsoleStreamExamples {
 
     /**
      * If execute from console, console block code will be executed, if not will
